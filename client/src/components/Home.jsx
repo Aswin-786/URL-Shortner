@@ -28,16 +28,18 @@ const Home = () => {
       setErrorMessage("Enter a valid URL");
       return;
     }
-    console.log(userName);
 
     setLoading(true);
+
     try {
       const response = await axios.post("http://localhost:8000/url", {
         originalURL: url,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
       });
       setResult(` ${response.data.shortURL}`);
     } catch (error) {
-      console.error("Error:", error);
       setResult("");
     }
     setLoading(false);
