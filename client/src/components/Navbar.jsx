@@ -23,8 +23,6 @@ const Navbar = () => {
   };
 
   const logout = async () => {
-    // localStorage.setItem("token", "");
-
     try {
       const res = await axios.get(`${BASE_URL}/auth/logout`, {
         withCredentials: true,
