@@ -20,6 +20,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  //signup function
   async signUp(signUpDto: SignUpDto): Promise<{ token: string; user: object }> {
     const { email, name, password } = signUpDto;
     try {
@@ -34,7 +35,13 @@ export class AuthService {
         email,
         password: hashedPassword,
       });
-      const token = this.jwtService.sign({ id: newUser._id });
+      const token = this.jwtService.sign({
+        email: newUser.email,
+        _id: newUser._id,
+        name: newUser.name,
+      });
+      const decodedToken = this.jwtService.verify(token);
+      console.log(decodedToken);
 
       return {
         token,
@@ -49,7 +56,7 @@ export class AuthService {
     }
   }
 
-  //login
+  //for login
   async login(loginDto: LoginUpDto): Promise<{ token: string; user: object }> {
     const { email, password } = loginDto;
     try {
@@ -57,11 +64,15 @@ export class AuthService {
       if (!user) {
         throw new NotFoundException('User not found');
       }
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = await bcrypt.compareSync(password, user.password);
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid credentials');
       }
-      const token = this.jwtService.sign({ id: user._id });
+      const token = this.jwtService.sign({
+        email: user.email,
+        _id: user._id,
+        name: user.name,
+      });
 
       return {
         token,
