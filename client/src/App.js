@@ -11,7 +11,6 @@ import Register from './components/Register';
 function App() {
   return (
     <RecoilRoot>
-      <InitUser />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
