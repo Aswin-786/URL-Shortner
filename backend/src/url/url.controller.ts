@@ -7,14 +7,17 @@ import {
   Res,
   HttpStatus,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { UrlService } from './url.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class UrlController {
   constructor(private readonly urlService: UrlService) {}
 
   @Post('url')
+  // @UseGuards(AuthGuard())
   async shortenUrl(
     @Body('originalURL') originalURL: string,
   ): Promise<{ shortURL: string }> {
