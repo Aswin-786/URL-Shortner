@@ -5,4 +5,5 @@
 
 body {
   font-family: "Playfair Display", serif;
+  @apply bg-stone-100;
 }
